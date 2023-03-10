@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (message.equalsIgnoreCase("login successful")) {
 
                             Intent intent =  new Intent(this, MainActivity.class);
+                            SessionProperty.getInstance().setPrivilege(response.optString("account_type"));
                             startActivity(intent);
                             Toast.makeText(LoginActivity.this, "Connexion réalisée avec succès !", Toast.LENGTH_SHORT).show();
                         }

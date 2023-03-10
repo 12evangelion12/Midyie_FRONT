@@ -1,5 +1,6 @@
 package fr.tom.midyie.ItemsList;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -17,12 +19,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fr.tom.midyie.APIRequest;
+import fr.tom.midyie.ItemCreate.ItemCreateActivity;
+import fr.tom.midyie.MainActivity;
 import fr.tom.midyie.R;
+import fr.tom.midyie.SessionProperty;
 
 public class ItemListFragment extends Fragment {
 
     List<Item> items;
     ItemAdapter itemAdapter;
+
+    public ItemListFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +56,16 @@ public class ItemListFragment extends Fragment {
                 return true;
             }
         });
+
+        Button addItem = view.findViewById(R.id.add_item_on_list);
+        addItem.setOnClickListener(view1 -> {
+            Intent intent =  new Intent(view.getContext(), ItemCreateActivity.class);
+            startActivity(intent);
+        });
+
+        if (!SessionProperty.getInstance().getPrivilege().equalsIgnoreCase("administrator")) {
+            addItem.setVisibility(View.INVISIBLE);
+        }
 
         RecyclerView recyclerView = view.findViewById(R.id.recycledView);
         recyclerView.setHasFixedSize(true);

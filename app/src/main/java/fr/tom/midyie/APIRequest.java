@@ -64,6 +64,40 @@ public class APIRequest {
     }
 
 
+    public static void addItem(Context context, Item item, Response.Listener<Boolean> listener) {
+
+       try {
+           RequestQueue queue = Volley.newRequestQueue(context);
+           String url = "http://10.0.2.2:6666/item";
+
+           JSONObject jsonBody = new JSONObject();
+           jsonBody.put("name", item.getName());
+           jsonBody.put("minecraftId", item.getMinecraft_id());
+           jsonBody.put("image", item.getImage());
+
+
+           JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                   Request.Method.POST,
+                   url,
+                   jsonBody,
+                   response -> {
+                       try {
+                           listener.onResponse(Boolean.parseBoolean(response.getString("itemAdded")));
+                       } catch (JSONException e) {
+                           throw new RuntimeException(e);
+                       }
+                   },
+                   Throwable::printStackTrace
+
+           );
+
+           queue.add(jsonObjectRequest);
+       } catch (JSONException e) {
+           throw new RuntimeException(e);
+       }
+    }
+
+
     public static void isMinecraftNameAvailable(Context context, String pseudonyme, Response.Listener<Boolean> listener) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -84,9 +118,7 @@ public class APIRequest {
                         throw new RuntimeException(e);
                     }
                 },
-                error -> {
-
-                }
+                Throwable::printStackTrace
         );
 
         queue.add(jsonObjectRequest);
