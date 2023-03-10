@@ -87,8 +87,4 @@ public class ItemListFragment extends Fragment {
             itemAdapter.setFilteredList(filteredList);
         }
     }
-
-    private void init() {
-
-    }
 }

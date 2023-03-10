@@ -63,11 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     },
                     error -> {
-                        if (error instanceof AuthFailureError) {
-                            Toast.makeText(this, "L'identifiant ou le mot de passe est incorrect !", Toast.LENGTH_SHORT).show();
-                        } else {
-                            System.out.println(error);
-                        }
+                        Toast.makeText(this, "L'identifiant ou le mot de passe est incorrect !", Toast.LENGTH_SHORT).show();
                     }
             );
 
